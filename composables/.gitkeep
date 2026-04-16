@@ -1,0 +1,3 @@
+# composables/
+# Coloque aqui os Vue Composables reutilizáveis do projeto.
+# Exemplo: useScrollPosition.ts, useSiteConfig.ts

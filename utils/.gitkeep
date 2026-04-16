@@ -1,0 +1,3 @@
+# utils/
+# Coloque aqui funções utilitárias puras (sem estado Vue).
+# Exemplo: formatDate.ts, formatPhone.ts

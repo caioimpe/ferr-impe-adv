@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-white text-brand-black antialiased font-body;
+  }
+
+  h1, h2, h3 {
+    @apply font-heading;
+  }
+
+  h4, h5, h6 {
+    @apply font-subheading font-semibold;
+  }
+}
+
+@layer components {
+  /* Container padrão do site */
+  .container-site {
+    @apply max-w-site mx-auto px-6 lg:px-10;
+  }
+
+  /* Linha decorativa em dourado */
+  .divider-gold {
+    @apply border-t border-brand-gold;
+  }
+
+  /* Texto de destaque em dourado */
+  .text-accent {
+    @apply text-brand-gold;
+  }
+
+  /* Label institucional em caixa alta */
+  .label-institutional {
+    @apply text-xs font-subheading font-semibold tracking-widest uppercase text-brand-gold;
+  }
+
+  /* ─── Prose editorial dos artigos ──────────────────────────────────────── */
+  .article-body {
+    @apply font-body text-[0.9375rem] leading-[1.9] text-brand-grayDark;
+  }
+
+  .article-body p {
+    @apply mb-5;
+  }
+
+  .article-body h2 {
+    @apply font-heading text-xl text-brand-green mt-10 mb-4;
+  }
+
+  .article-body h3 {
+    @apply font-subheading font-semibold text-[0.95rem] text-brand-green mt-7 mb-3 tracking-wide;
+  }
+
+  .article-body ul,
+  .article-body ol {
+    @apply mb-5 pl-5;
+  }
+
+  .article-body li {
+    @apply mb-1.5;
+  }
+
+  .article-body strong {
+    @apply font-semibold text-brand-green;
+  }
+
+  .article-body a {
+    @apply text-brand-gold underline underline-offset-2 hover:text-brand-greenLight transition-colors;
+  }
+
+  .article-body blockquote {
+    @apply border-l-2 border-brand-gold pl-5 my-7 font-heading text-lg text-brand-green;
+  }
+}

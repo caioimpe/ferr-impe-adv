@@ -1,0 +1,3 @@
+# public/
+# Arquivos estáticos servidos diretamente na raiz do site.
+# Exemplo: favicon.ico, robots.txt, imagens de marca
