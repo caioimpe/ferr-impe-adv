@@ -1,6 +1,6 @@
 // server/api/articles/[slug].get.ts
 // Endpoint público — artigo individual pelo slug (somente publicados).
-import { getArticleBySlug } from '../../utils/storage'
+import { getArticleBySlug } from '../../repositories/articlesRepository'
 
 export default defineEventHandler(async (event) => {
   const slug    = getRouterParam(event, 'slug')!

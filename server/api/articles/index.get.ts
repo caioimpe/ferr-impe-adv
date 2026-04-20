@@ -1,6 +1,6 @@
 // server/api/articles/index.get.ts
 // Endpoint público — retorna apenas artigos publicados.
-import { getAllArticles } from '../../utils/storage'
+import { getAllArticles } from '../../repositories/articlesRepository'
 
 export default defineEventHandler(async (event) => {
   const { category } = getQuery(event)

@@ -1,0 +1,47 @@
+// This is your Prisma schema file.
+// Learn more about it at https://pris.ly/d/prisma-schema
+
+// ─── Gerador de cliente ───────────────────────────────────────────────────────
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── Fonte de dados ───────────────────────────────────────────────────────────
+// DATABASE_URL é lida das variáveis de ambiente.
+// Formato Neon/Vercel Postgres:
+//   postgres://user:password@host/dbname?sslmode=require&pgbouncer=true&connection_limit=1
+//
+// O sufixo pgbouncer=true é importante para ambientes serverless (Vercel),
+// pois evita esgotar o pool de conexões entre invocações de funções.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Model Article ────────────────────────────────────────────────────────────
+// Mantém paridade exata com o tipo Article em types/article.ts.
+// O campo `date` (YYYY-MM-DD) é derivado em runtime — não armazenado aqui.
+model Article {
+  id             String    @id @default(uuid())
+  slug           String    @unique
+  title          String
+  seoTitle       String    @default("")
+  seoDescription String    @default("")
+  excerpt        String    @default("")
+  category       String    @default("")
+  categorySlug   String    @default("")
+  readingTime    Int       @default(0)
+  coverImage     String?
+  // HTML do corpo do artigo — sem limite de tamanho no Postgres (TEXT)
+  content        String
+  tags           String[]  @default([])
+  // 'draft' | 'published' — string para flexibilidade futura
+  status         String    @default("draft")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  publishedAt    DateTime?
+
+  @@index([status])
+  @@index([categorySlug])
+  @@index([publishedAt(sort: Desc)])
+}

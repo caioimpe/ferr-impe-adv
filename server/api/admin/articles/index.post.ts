@@ -1,7 +1,7 @@
 // server/api/admin/articles/index.post.ts
 // Admin — cria novo artigo.
 // Protegido por server/middleware/admin-auth.ts
-import { saveArticle } from '../../../utils/storage'
+import { saveArticle } from '../../../repositories/articlesRepository'
 import type { ArticleInput } from '../../../../types/article'
 
 export default defineEventHandler(async (event) => {

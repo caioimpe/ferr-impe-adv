@@ -1,28 +1,20 @@
 // server/api/admin/upload.post.ts
 // Upload de imagem de capa — protegido pelo middleware admin-auth.ts
 //
-// ⚠️  SOLUÇÃO LOCAL / TEMPORÁRIA
-// ─────────────────────────────────────────────────────────────────────────────
-// Este endpoint salva arquivos em public/images/artigos/ no servidor que
-// executa o Nuxt. Isso funciona perfeitamente em desenvolvimento local, mas
-// NÃO é adequado para produção na Vercel (ou qualquer plataforma serverless)
-// pelos seguintes motivos:
+// ─── Estratégia de armazenamento ─────────────────────────────────────────────
 //
-//   1. O filesystem da Vercel é efêmero — arquivos gravados durante um deploy
-//      são descartados a cada novo deploy.
-//   2. Funções serverless podem rodar em instâncias diferentes; um arquivo
-//      salvo em uma instância não fica visível em outra.
+// PRODUÇÃO  (BLOB_READ_WRITE_TOKEN definido):
+//   Usa Vercel Blob Storage — URLs públicas, persistentes e globalmente
+//   distribuídas via CDN. Requer: npm install @vercel/blob
+//   Configurar em: Vercel Dashboard → Storage → Blob → Connect to Project
 //
-// SOLUÇÃO RECOMENDADA PARA PRODUÇÃO:
-//   - Vercel Blob Storage  → https://vercel.com/docs/storage/vercel-blob
-//   - Cloudinary           → https://cloudinary.com
-//   - AWS S3 / R2 (Cloudflare)
-//   Substitua o bloco `writeFile` abaixo pelo SDK do serviço escolhido e
-//   retorne a URL pública fornecida por ele.
+// DESENVOLVIMENTO (BLOB_READ_WRITE_TOKEN ausente):
+//   Fallback local — salva em public/images/artigos/.
+//   Funciona apenas em localhost; não é persistente na Vercel.
+//
 // ─────────────────────────────────────────────────────────────────────────────
+
 import { readMultipartFormData } from 'h3'
-import { writeFile, mkdir } from 'node:fs/promises'
-import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
@@ -61,12 +53,28 @@ export default defineEventHandler(async (event) => {
   }
 
   const ext      = MIME_TO_EXT[mimeType] ?? '.jpg'
-  const filename = `${randomUUID()}${ext}`
-  const dir      = join(process.cwd(), 'public', 'images', 'artigos')
+  const filename = `artigos/${randomUUID()}${ext}`
 
-  // ⚠️ Gravação local — ver aviso no cabeçalho deste arquivo.
+  // ─── PRODUÇÃO: Vercel Blob ────────────────────────────────────────────────
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import('@vercel/blob')
+    const blob    = await put(filename, filePart.data, {
+      access:      'public',
+      contentType: mimeType,
+    })
+    return { url: blob.url }
+  }
+
+  // ─── DESENVOLVIMENTO: fallback filesystem local ───────────────────────────
+  // ⚠️  Arquivos gravados aqui NÃO persistem na Vercel.
+  //     Configure BLOB_READ_WRITE_TOKEN para usar Vercel Blob em produção.
+  const { writeFile, mkdir } = await import('node:fs/promises')
+  const { join }             = await import('node:path')
+  const dir                  = join(process.cwd(), 'public', 'images', 'artigos')
+  const localFilename        = `${randomUUID()}${ext}`
+
   await mkdir(dir, { recursive: true })
-  await writeFile(join(dir, filename), filePart.data)
+  await writeFile(join(dir, localFilename), filePart.data)
 
-  return { url: `/images/artigos/${filename}` }
+  return { url: `/images/artigos/${localFilename}` }
 })

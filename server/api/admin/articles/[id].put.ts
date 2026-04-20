@@ -1,6 +1,6 @@
 // server/api/admin/articles/[id].put.ts
 // Admin — atualiza artigo existente pelo ID.
-import { getArticleById, saveArticle } from '../../../utils/storage'
+import { getArticleById, saveArticle } from '../../../repositories/articlesRepository'
 import type { ArticleInput } from '../../../../types/article'
 
 export default defineEventHandler(async (event) => {
