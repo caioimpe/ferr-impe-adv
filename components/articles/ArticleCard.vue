@@ -4,7 +4,7 @@
     <!-- Imagem de capa -->
     <NuxtLink :to="`/artigos/${article.slug}`" class="block overflow-hidden flex-shrink-0" tabindex="-1">
       <div
-        v-if="!article.coverImage"
+        v-if="!article.coverImage || coverError"
         class="aspect-[16/8] w-full bg-brand-green/5 flex flex-col items-center justify-center gap-3"
         aria-hidden="true"
       >
@@ -19,6 +19,7 @@
         :alt="article.title"
         class="aspect-[16/8] w-full object-cover group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
+        @error="coverError = true"
       />
     </NuxtLink>
 
@@ -65,4 +66,5 @@
 <script setup lang="ts">
 import type { Article } from '~/types/article'
 defineProps<{ article: Article }>()
+const coverError = ref(false)
 </script>

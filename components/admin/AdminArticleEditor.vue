@@ -73,32 +73,96 @@
     <fieldset class="flex flex-col gap-5">
       <legend class="label-institutional text-brand-green mb-1">Metadados</legend>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div class="flex flex-col gap-1.5">
-          <label for="f-reading" class="field-label">Tempo de leitura (min)</label>
-          <input
-            id="f-reading"
-            v-model.number="form.readingTime"
-            type="number"
-            min="1"
-            max="60"
-            placeholder="5"
-            class="field-input"
+      <div class="flex flex-col gap-1.5">
+        <label for="f-reading" class="field-label">Tempo de leitura (min)</label>
+        <input
+          id="f-reading"
+          v-model.number="form.readingTime"
+          type="number"
+          min="1"
+          max="60"
+          placeholder="5"
+          class="field-input w-40"
+        />
+      </div>
+
+      <!-- ─── Imagem de capa ──────────────────────────────────────── -->
+      <div class="flex flex-col gap-2">
+        <p class="field-label">Imagem de capa</p>
+
+        <!-- Preview (quando há URL definida e não está carregando) -->
+        <div v-if="form.coverImage && !uploading" class="relative border border-gray-200 overflow-hidden bg-white">
+          <img
+            :src="form.coverImage"
+            :alt="form.title || 'Capa do artigo'"
+            class="w-full h-44 object-cover"
           />
+          <button
+            type="button"
+            class="absolute top-2 right-2 w-7 h-7 flex items-center justify-center bg-black/50 text-white text-[0.65rem] leading-none hover:bg-red-600/80 transition-colors"
+            title="Remover imagem"
+            @click="form.coverImage = ''; uploadError = ''"
+          >
+            ✕
+          </button>
         </div>
-        <div class="flex flex-col gap-1.5 sm:col-span-2">
-          <label for="f-cover" class="field-label">
-            Imagem de capa
-            <span class="font-body normal-case tracking-normal text-brand-grayLight ml-1">— path ou URL</span>
-          </label>
+
+        <!-- Zona de upload (sem imagem ou carregando) -->
+        <label
+          v-else
+          class="flex flex-col items-center justify-center gap-3 h-44 border border-dashed border-gray-300 bg-white cursor-pointer hover:border-brand-gold/50 hover:bg-brand-gold/5 transition-all group"
+          :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': uploading }"
+        >
           <input
-            id="f-cover"
-            v-model="form.coverImage"
-            type="text"
-            placeholder="/images/artigos/nome.jpg"
-            class="field-input"
+            ref="fileInputRef"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            class="sr-only"
+            :disabled="uploading"
+            @change="handleFileChange"
           />
+
+          <!-- estado: carregando -->
+          <div v-if="uploading" class="flex items-center gap-2">
+            <div class="w-4 h-px bg-brand-gold animate-pulse" />
+            <span class="text-[0.72rem] font-body text-brand-grayLight">Carregando...</span>
+            <div class="w-4 h-px bg-brand-gold animate-pulse" />
+          </div>
+
+          <!-- estado: aguardando seleção -->
+          <template v-else>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-7 h-7 text-brand-grayLight group-hover:text-brand-gold transition-colors"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+            </svg>
+            <div class="text-center">
+              <p class="text-[0.72rem] font-subheading tracking-wide text-brand-grayDark group-hover:text-brand-green transition-colors">
+                Clique para carregar
+              </p>
+              <p class="text-[0.62rem] font-body text-brand-grayLight mt-0.5">
+                JPEG, PNG, WebP ou GIF — máx. 5 MB
+              </p>
+            </div>
+          </template>
+        </label>
+
+        <!-- URL manual (alternativa) -->
+        <div class="flex items-center gap-3">
+          <span class="text-[0.58rem] font-subheading tracking-widest uppercase text-brand-grayLight shrink-0">ou URL</span>
+          <div class="flex-1 h-px bg-gray-200" />
         </div>
+        <input
+          v-model="form.coverImage"
+          type="text"
+          placeholder="https://... ou /images/artigos/nome.jpg"
+          class="field-input text-[0.78rem]"
+        />
+
+        <p v-if="uploadError" class="text-[0.62rem] font-body text-red-400">{{ uploadError }}</p>
       </div>
 
       <!-- Status de publicação -->
@@ -295,6 +359,9 @@ const tagsRaw          = ref(props.initial?.tags?.join(', ') ?? '')
 const slugManuallyEdited = ref(props.isEdit)
 const saving           = ref(false)
 const submitError      = ref('')
+const fileInputRef     = ref<HTMLInputElement | null>(null)
+const uploading        = ref(false)
+const uploadError      = ref('')
 
 // ─── Handlers ────────────────────────────────────────────────────────────────
 
@@ -309,6 +376,33 @@ function onTitleInput(): void {
 
 function onCategoryInput(): void {
   form.categorySlug = generateSlug(form.category)
+}
+
+async function handleFileChange(event: Event): Promise<void> {
+  const input = event.target as HTMLInputElement
+  const file  = input.files?.[0]
+  if (!file) return
+
+  uploading.value   = true
+  uploadError.value = ''
+
+  try {
+    const body = new FormData()
+    body.append('file', file)
+
+    const result = await $fetch<{ url: string }>('/api/admin/upload', {
+      method: 'POST',
+      body,
+    })
+
+    form.coverImage = result.url
+  } catch (e: unknown) {
+    const msg = (e as { data?: { message?: string } })?.data?.message
+    uploadError.value = msg ?? 'Erro ao carregar imagem. Tente novamente.'
+  } finally {
+    uploading.value = false
+    if (fileInputRef.value) fileInputRef.value.value = ''
+  }
 }
 
 function buildDefaultSeoTitle(title: string): string {

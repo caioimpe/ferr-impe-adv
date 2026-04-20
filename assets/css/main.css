@@ -43,28 +43,28 @@
 
   /* ─── Prose editorial dos artigos ──────────────────────────────────────── */
   .article-body {
-    @apply font-body text-[0.9375rem] leading-[1.9] text-brand-grayDark;
+    @apply font-body text-[0.9375rem] leading-[1.95] text-brand-grayDark;
   }
 
   .article-body p {
-    @apply mb-5;
+    @apply mb-6;
   }
 
   .article-body h2 {
-    @apply font-heading text-xl text-brand-green mt-10 mb-4;
+    @apply font-heading text-[1.35rem] text-brand-green mt-12 mb-4 leading-snug;
   }
 
   .article-body h3 {
-    @apply font-subheading font-semibold text-[0.95rem] text-brand-green mt-7 mb-3 tracking-wide;
+    @apply font-subheading font-semibold text-[0.95rem] text-brand-green mt-8 mb-3 tracking-wide uppercase;
   }
 
   .article-body ul,
   .article-body ol {
-    @apply mb-5 pl-5;
+    @apply mb-6 pl-5;
   }
 
   .article-body li {
-    @apply mb-1.5;
+    @apply mb-2;
   }
 
   .article-body strong {
@@ -76,6 +76,10 @@
   }
 
   .article-body blockquote {
-    @apply border-l-2 border-brand-gold pl-5 my-7 font-heading text-lg text-brand-green;
+    @apply border-l-2 border-brand-gold/60 pl-6 my-8 font-heading text-[1.05rem] text-brand-green leading-relaxed italic;
+  }
+
+  .article-body hr {
+    @apply my-10 border-none h-px bg-brand-gold/20;
   }
 }
