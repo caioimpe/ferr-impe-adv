@@ -214,7 +214,7 @@ import type { Article } from '~/types/article'
 // Sem layout padrão nesta rota — tela de editor dedicada
 definePageMeta({ layout: false })
 
-useSeoMeta({ title: 'Editor Editorial — Ferrigato & Imperato' })
+useSeoMeta({ title: 'Editor Editorial — Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 const store = useArticleStore()
 

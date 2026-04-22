@@ -57,9 +57,23 @@
 </template>
 
 <script setup lang="ts">
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonical = `${siteUrl}/sobre`
+
 useSeoMeta({
   title: 'Sobre o Escritório — Ferrigato & Imperato Advogados',
   description: 'Conheça o escritório Ferrigato & Imperato. Advogados em Salto/SP com atuação técnica, ética e comprometida.',
+  ogTitle: 'Sobre o Escritório — Ferrigato & Imperato Advogados',
+  ogDescription: 'Conheça o escritório Ferrigato & Imperato. Advogados em Salto/SP com atuação técnica, ética e comprometida.',
+  ogUrl: canonical,
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Sobre — Ferrigato & Imperato Advogados',
+  twitterDescription: 'Conheça o escritório Ferrigato & Imperato Advogados em Salto/SP.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonical }],
 })
 
 const values = [

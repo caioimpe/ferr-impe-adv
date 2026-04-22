@@ -65,9 +65,23 @@
 <script setup lang="ts">
 import type { Attorney } from '~/components/ui/AttorneyProfileCard.vue'
 
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonical = `${siteUrl}/quem-somos`
+
 useSeoMeta({
   title: 'Quem Somos — Ferrigato & Imperato Advogados',
   description: 'Conheça a equipe do escritório Ferrigato & Imperato Advogados. Profissionais comprometidos com rigor técnico e atendimento humanizado.',
+  ogTitle: 'Quem Somos — Ferrigato & Imperato Advogados',
+  ogDescription: 'Conheça a equipe do escritório Ferrigato & Imperato. Profissionais comprometidos com rigor técnico e atendimento humanizado.',
+  ogUrl: canonical,
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Quem Somos — Ferrigato & Imperato Advogados',
+  twitterDescription: 'Conheça os advogados do escritório Ferrigato & Imperato em Salto/SP.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonical }],
 })
 
 /*

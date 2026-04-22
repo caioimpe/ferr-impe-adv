@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 definePageMeta({ layout: 'admin', middleware: 'admin' })
-useSeoMeta({ title: 'Novo Artigo — Painel | Ferrigato & Imperato' })
+useSeoMeta({ title: 'Novo Artigo — Painel | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 function onSaved(id: string): void {
   navigateTo(`/admin/artigos/${id}`)

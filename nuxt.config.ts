@@ -4,6 +4,13 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  // Variável pública com fallback para desenvolvimento
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+    },
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
   ],
@@ -63,12 +70,19 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
+      htmlAttrs: { lang: 'pt-BR' },
       title: 'Ferrigato & Imperato Advogados',
+      templateParams: { separator: '|' },
       meta: [
         {
           name: 'description',
-          content: 'Escritório de advocacia especializado em soluções jurídicas.',
+          content: 'Escritório de advocacia em Salto/SP. Assessoria jurídica técnica, ética e comprometida com os resultados dos nossos clientes.',
         },
+        { name: 'theme-color', content: '#1a2e1a' },
+        { name: 'robots', content: 'index, follow' },
+        { property: 'og:site_name', content: 'Ferrigato & Imperato Advogados' },
+        { property: 'og:locale', content: 'pt_BR' },
+        { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

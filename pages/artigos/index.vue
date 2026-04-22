@@ -93,12 +93,23 @@
 <script setup lang="ts">
 import type { Article, Category } from '~/types/article'
 
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonical = `${siteUrl}/artigos`
+
 useSeoMeta({
-  title:         'Artigos & Publicações Jurídicas | Ferrigato & Imperato Advogados',
-  description:   'Análises jurídicas, orientações práticas e atualizações do direito pelo escritório Ferrigato & Imperato Advogados em Salto/SP.',
-  ogTitle:       'Artigos & Publicações Jurídicas | Ferrigato & Imperato Advogados',
-  ogDescription: 'Análises jurídicas, orientações práticas e atualizações do direito pelo escritório Ferrigato & Imperato Advogados.',
-  ogType: 'website',
+  title:          'Artigos & Publicações Jurídicas | Ferrigato & Imperato Advogados',
+  description:    'Análises jurídicas, orientações práticas e atualizações do direito pelo escritório Ferrigato & Imperato Advogados em Salto/SP.',
+  ogTitle:        'Artigos & Publicações Jurídicas | Ferrigato & Imperato Advogados',
+  ogDescription:  'Análises jurídicas, orientações práticas e atualizações do direito pelo escritório Ferrigato & Imperato Advogados.',
+  ogUrl:          canonical,
+  ogType:         'website',
+  twitterCard:    'summary_large_image',
+  twitterTitle:   'Artigos Jurídicos — Ferrigato & Imperato Advogados',
+  twitterDescription: 'Análises jurídicas e orientações práticas do direito.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonical }],
 })
 
 const { data: articles }   = await useFetch<Article[]>('/api/articles')

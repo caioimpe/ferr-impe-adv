@@ -69,7 +69,7 @@
 import type { Article } from '~/types/article'
 
 definePageMeta({ layout: 'admin', middleware: 'admin' })
-useSeoMeta({ title: 'Editar Artigo — Painel | Ferrigato & Imperato' })
+useSeoMeta({ title: 'Editar Artigo — Painel | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 const route = useRoute()
 const id    = route.params.id as string

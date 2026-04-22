@@ -194,13 +194,53 @@ const related = computed(() =>
   (relatedData.value ?? []).filter(a => a.slug !== slug).slice(0, 2),
 )
 
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonical = computed(() => `${siteUrl}/artigos/${slug}`)
+
 useSeoMeta({
   title:                computed(() => article.value?.seoTitle       ?? 'Artigo | Ferrigato & Imperato Advogados'),
   description:          computed(() => article.value?.seoDescription ?? ''),
   ogTitle:              computed(() => article.value?.seoTitle       ?? ''),
   ogDescription:        computed(() => article.value?.seoDescription ?? ''),
+  ogUrl:                canonical,
   ogType:               'article',
+  ogImage:              computed(() => article.value?.coverImage ?? undefined),
   articlePublishedTime: computed(() => article.value?.publishedAt    ?? ''),
   articleModifiedTime:  computed(() => article.value?.updatedAt      ?? ''),
+  twitterCard:          'summary_large_image',
+  twitterTitle:         computed(() => article.value?.seoTitle ?? ''),
+  twitterDescription:   computed(() => article.value?.seoDescription ?? ''),
+  twitterImage:         computed(() => article.value?.coverImage ?? undefined),
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonical }],
+  script: computed(() => {
+    if (!article.value) return []
+    const a = article.value
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: a.seoTitle || a.title,
+      description: a.seoDescription || a.excerpt,
+      ...(a.coverImage ? { image: a.coverImage } : {}),
+      datePublished: a.publishedAt ?? a.createdAt,
+      dateModified: a.updatedAt,
+      author: {
+        '@type': 'Organization',
+        name: 'Ferrigato & Imperato Advogados',
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Ferrigato & Imperato Advogados',
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `${siteUrl}/artigos/${a.slug}`,
+      },
+      url: `${siteUrl}/artigos/${a.slug}`,
+    }
+    return [{ type: 'application/ld+json', children: JSON.stringify(jsonLd) }]
+  }),
 })
 </script>

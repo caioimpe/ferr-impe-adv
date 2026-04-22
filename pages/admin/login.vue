@@ -66,7 +66,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
-useSeoMeta({ title: 'Painel Editorial | Ferrigato & Imperato' })
+useSeoMeta({ title: 'Painel Editorial | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 const auth     = useAdminAuth()
 const password = ref('')

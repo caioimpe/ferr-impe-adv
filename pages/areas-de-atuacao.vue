@@ -36,9 +36,23 @@
 </template>
 
 <script setup lang="ts">
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonical = `${siteUrl}/areas-de-atuacao`
+
 useSeoMeta({
   title: 'Áreas de Atuação — Ferrigato & Imperato Advogados',
   description: 'Conheça as especialidades jurídicas do escritório Ferrigato & Imperato: direito civil, trabalhista, empresarial e muito mais.',
+  ogTitle: 'Áreas de Atuação — Ferrigato & Imperato Advogados',
+  ogDescription: 'Assessoria jurídica especializada em direito civil, trabalhista, empresarial e mais. Escritório em Salto/SP.',
+  ogUrl: canonical,
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Áreas de Atuação — Ferrigato & Imperato Advogados',
+  twitterDescription: 'Assessoria jurídica especializada nas principais áreas do direito.',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonical }],
 })
 
 const areas = [

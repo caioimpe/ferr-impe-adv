@@ -175,7 +175,7 @@
 import type { Article } from '~/types/article'
 
 definePageMeta({ layout: 'admin', middleware: 'admin' })
-useSeoMeta({ title: 'Artigos — Painel | Ferrigato & Imperato' })
+useSeoMeta({ title: 'Artigos — Painel | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 const { data: articles, pending, error, refresh } = await useFetch<Article[]>('/api/admin/articles')
 
