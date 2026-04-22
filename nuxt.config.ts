@@ -40,6 +40,12 @@ export default defineNuxtConfig({
         base: './.data/db',
       },
     },
+    // Garante que o Prisma Client gerado (node_modules/.prisma) seja incluído
+    // no trace do bundle Vercel. Sem isso, o Nitro pode omitir os arquivos do
+    // Prisma ao montar o output serverless, quebrando a conexão em produção.
+    externals: {
+      traceInclude: ['./node_modules/.prisma/client/index.js'],
+    },
   },
 
   app: {

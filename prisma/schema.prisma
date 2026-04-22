@@ -3,7 +3,10 @@
 
 // ─── Gerador de cliente ───────────────────────────────────────────────────────
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // "native"             → binário para a máquina do desenvolvedor (Windows/macOS/Linux)
+  // "rhel-openssl-3.0.x" → Amazon Linux 2023, runtime do Vercel Serverless Functions
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 // ─── Fonte de dados ───────────────────────────────────────────────────────────
