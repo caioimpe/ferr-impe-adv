@@ -44,7 +44,12 @@ export default defineNuxtConfig({
     // no trace do bundle Vercel. Sem isso, o Nitro pode omitir os arquivos do
     // Prisma ao montar o output serverless, quebrando a conexão em produção.
     externals: {
-      traceInclude: ['./node_modules/.prisma/client/index.js'],
+      traceInclude: [
+        // JS client (queries, tipos, runtime)
+        './node_modules/.prisma/client/index.js',
+        // Engine nativo para Vercel Serverless Functions (Amazon Linux / RHEL)
+        './node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node',
+      ],
     },
   },
 
