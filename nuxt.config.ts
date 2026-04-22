@@ -40,14 +40,20 @@ export default defineNuxtConfig({
         base: './.data/db',
       },
     },
-    // Garante que o Prisma Client gerado (node_modules/.prisma) seja incluído
-    // no trace do bundle Vercel. Sem isso, o Nitro pode omitir os arquivos do
-    // Prisma ao montar o output serverless, quebrando a conexão em produção.
+    // Prisma Client — não deve ser bundlado pelo Nitro/esbuild.
+    // O @prisma/client carrega um binário nativo (.so.node) em runtime;
+    // se o Nitro tentar bundlar o pacote, o binário não é encontrado e
+    // a conexão falha com erro de módulo nativo.
+    //
+    // `external` → Nitro não inclui esses pacotes no bundle; usa require() em runtime
+    // `traceInclude` → garante que os arquivos físicos sejam copiados para .output/
     externals: {
+      external: ['@prisma/client', '.prisma/client'],
       traceInclude: [
-        // JS client (queries, tipos, runtime)
+        './node_modules/@prisma/client/index.js',
+        './node_modules/@prisma/client/package.json',
         './node_modules/.prisma/client/index.js',
-        // Engine nativo para Vercel Serverless Functions (Amazon Linux / RHEL)
+        './node_modules/.prisma/client/package.json',
         './node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node',
       ],
     },

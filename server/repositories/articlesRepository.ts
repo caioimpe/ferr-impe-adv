@@ -56,6 +56,15 @@ function getAdapter(): Promise<ArticleRepositoryAdapter> {
     _adapterPromise = import('./adapters/storageAdapter').then(m => m.storageAdapter)
   }
 
+  // Se o import falhar (ex: binário Prisma não encontrado, DATABASE_URL inválida),
+  // limpa o cache para que a próxima request tente novamente em vez de reutilizar
+  // uma promessa permanentemente rejeitada.
+  _adapterPromise = _adapterPromise.catch((err) => {
+    _adapterPromise = null
+    console.error('[articlesRepository] Falha ao carregar adaptador:', err)
+    throw createError({ statusCode: 503, message: 'Serviço de artigos temporariamente indisponível.' })
+  })
+
   return _adapterPromise
 }
 
