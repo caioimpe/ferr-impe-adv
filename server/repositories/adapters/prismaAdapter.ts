@@ -211,10 +211,3 @@ export const prismaAdapter: ArticleRepositoryAdapter = {
     }
   },
 }
-    return rows.map(r => ({
-      name:  r.category,
-      slug:  r.categorySlug,
-      count: r._count.id,
-    }))
-  },
-}
