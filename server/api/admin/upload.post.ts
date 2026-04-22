@@ -65,6 +65,19 @@ export default defineEventHandler(async (event) => {
     return { url: blob.url }
   }
 
+  // ─── PRODUÇÃO sem token: falha explícita ──────────────────────────────────
+  // Na Vercel, o filesystem é efêmero — arquivos gravados somem no próximo
+  // deploy. Em vez de silenciosamente persistir uma URL quebrada, falhamos
+  // com uma mensagem clara para o administrador configurar o token.
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    throw createError({
+      statusCode: 503,
+      message:
+        'Upload de imagens desativado: configure a variável BLOB_READ_WRITE_TOKEN ' +
+        'no painel da Vercel (Storage → Blob → Connect to Project) para habilitar o armazenamento.',
+    })
+  }
+
   // ─── DESENVOLVIMENTO: fallback filesystem local ───────────────────────────
   // ⚠️  Arquivos gravados aqui NÃO persistem na Vercel.
   //     Configure BLOB_READ_WRITE_TOKEN para usar Vercel Blob em produção.
