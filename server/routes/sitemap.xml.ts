@@ -53,6 +53,8 @@ export default defineEventHandler(async (event) => {
 </urlset>`
 
   setResponseHeader(event, 'Content-Type', 'application/xml; charset=utf-8')
-  setResponseHeader(event, 'Cache-Control', 'public, max-age=3600')
+  // Sem cache: o sitemap deve refletir imediatamente qualquer artigo publicado.
+  // 'no-store' impede tanto o CDN/Vercel Edge quanto o browser de servir versão antiga.
+  setResponseHeader(event, 'Cache-Control', 'no-store')
   return xml
 })

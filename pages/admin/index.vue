@@ -177,6 +177,23 @@ import type { Article } from '~/types/article'
 definePageMeta({ layout: 'admin', middleware: 'admin' })
 useSeoMeta({ title: 'Artigos — Painel | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
+// ─── Formatação de datas ──────────────────────────────────────────────────────
+// Formato: "23 abril/2026"
+const PT_MONTHS = [
+  'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
+]
+
+function formatDate(isoString: string | undefined): string {
+  if (!isoString) return '—'
+  const date = new Date(isoString)
+  if (isNaN(date.getTime())) return '—'
+  const day   = date.getUTCDate()
+  const month = PT_MONTHS[date.getUTCMonth()]
+  const year  = date.getUTCFullYear()
+  return `${day} ${month}/${year}`
+}
+
 const { data: articles, pending, error, refresh } = await useFetch<Article[]>('/api/admin/articles')
 
 const publishedCount = computed(() => articles.value?.filter(a => a.status === 'published').length ?? 0)
