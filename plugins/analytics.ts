@@ -1,10 +1,12 @@
 // plugins/analytics.ts
 // Google Analytics 4 via Google tag (gtag.js)
 //
-// – Injeta os scripts no <head> apenas se NUXT_PUBLIC_GA_ID estiver definido.
-// – send_page_view:false evita o page_view automático do gtag (que duplicaria no SSR).
-// – router.afterEach dispara page_view manualmente em cada navegação, excluindo /admin/*.
-// – nextTick garante que document.title já foi atualizado pelo Nuxt antes do envio.
+// Snippet padrão do Google: gtag('config', ID) dispara page_view automaticamente
+// no carregamento inicial da página (SSR → hidratação do cliente).
+//
+// Para navegações SPA do Nuxt (Vue Router), router.afterEach dispara page_view
+// manualmente em cada transição subsequente, excluindo /admin/*.
+// A flag isFirstNavigation evita contagem dupla no carregamento inicial.
 
 declare global {
   interface Window {
@@ -18,6 +20,7 @@ export default defineNuxtPlugin(() => {
 
   if (!gaId) return
 
+  // Snippet exato recomendado pelo Google Analytics
   useHead({
     script: [
       {
@@ -27,20 +30,28 @@ export default defineNuxtPlugin(() => {
       },
       {
         key: 'gtag-config',
-        // Inicializa dataLayer + configura GA4 sem disparar page_view automático
-        innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId}',{send_page_view:false});`,
+        innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId}');`,
       },
     ],
   })
 
   if (import.meta.client) {
     const router = useRouter()
+    // O page_view do carregamento inicial já foi enviado pelo gtag('config', ...)
+    // acima; ignoramos a primeira chamada do afterEach para evitar duplicata.
+    let isFirstNavigation = true
 
     router.afterEach((to) => {
       // Exclui todo o painel admin do rastreamento
       if (to.path.startsWith('/admin')) return
 
-      // Aguarda o Nuxt atualizar o <title> da página antes de enviar o evento
+      if (isFirstNavigation) {
+        isFirstNavigation = false
+        return
+      }
+
+      // Navegações SPA subsequentes: dispara page_view manualmente
+      // nextTick garante que document.title já foi atualizado pelo Nuxt
       nextTick(() => {
         window.gtag('event', 'page_view', {
           page_title: document.title,
@@ -51,3 +62,4 @@ export default defineNuxtPlugin(() => {
     })
   }
 })
+
