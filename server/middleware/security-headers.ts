@@ -29,15 +29,16 @@ export default defineEventHandler((event) => {
     const csp = [
       "default-src 'self'",
       // Nuxt 3 injeta scripts inline para hidratação — unsafe-inline necessário
-      "script-src 'self' 'unsafe-inline'",
+      // GA4: googletagmanager.com serve o gtag/js
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
       // Tailwind em produção = CSS extraído; unsafe-inline cobre estilos dinâmicos do Vue
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Google Fonts
       "font-src 'self' https://fonts.gstatic.com",
-      // Imagens: próprio domínio + data URIs + Vercel Blob
-      "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com",
-      // Fetch/XHR: apenas same-origin
-      "connect-src 'self'",
+      // Imagens: próprio domínio + data URIs + Vercel Blob + GA4 beacon fallback
+      "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://www.google-analytics.com",
+      // Fetch/XHR: same-origin + GA4 coleta de dados
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com",
       // Bloqueia objetos embarcados (Flash, PDF embutido etc.)
       "object-src 'none'",
       // Bloqueia iframes desta página em qualquer site

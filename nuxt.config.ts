@@ -4,10 +4,11 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  // Variável pública com fallback para desenvolvimento
+  // Variáveis públicas — acessíveis no cliente e no servidor
   runtimeConfig: {
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+      gaId: process.env.NUXT_PUBLIC_GA_ID ?? '',
     },
   },
 
