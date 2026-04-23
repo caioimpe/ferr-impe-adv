@@ -1,7 +1,17 @@
 // server/api/auth/login.post.ts
 import { comparePassword, signAdminToken } from '../../utils/auth'
+import { checkRateLimit, getClientIp } from '../../utils/rateLimiter'
 
 export default defineEventHandler(async (event) => {
+  // Rate limiting: 5 tentativas por IP a cada 60 segundos
+  const ip = getClientIp(event)
+  if (!checkRateLimit(`login:${ip}`, 5, 60_000)) {
+    throw createError({
+      statusCode: 429,
+      message: 'Muitas tentativas de login. Aguarde 1 minuto.',
+    })
+  }
+
   const body     = await readBody<{ password?: string }>(event)
   const adminPwd = process.env.ADMIN_PASSWORD
 

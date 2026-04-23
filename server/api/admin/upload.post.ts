@@ -16,6 +16,7 @@
 
 import { readMultipartFormData } from 'h3'
 import { randomUUID } from 'node:crypto'
+import { checkRateLimit, getClientIp } from '../../utils/rateLimiter'
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
 const MAX_BYTES     = 5 * 1024 * 1024   // 5 MB
@@ -27,7 +28,44 @@ const MIME_TO_EXT: Record<string, string> = {
   'image/gif':  '.gif',
 }
 
+// ─── Validação de magic bytes ────────────────────────────────────────────────
+// Verifica a assinatura binária real do arquivo, independente do Content-Type
+// declarado pelo cliente. Impede upload de arquivos mascarados como imagens.
+function hasValidMagicBytes(data: Buffer, mimeType: string): boolean {
+  if (data.length < 12) return false
+  if (mimeType === 'image/jpeg') {
+    return data[0] === 0xFF && data[1] === 0xD8 && data[2] === 0xFF
+  }
+  if (mimeType === 'image/png') {
+    return (
+      data[0] === 0x89 && data[1] === 0x50 &&
+      data[2] === 0x4E && data[3] === 0x47
+    )
+  }
+  if (mimeType === 'image/webp') {
+    // RIFF????WEBP
+    return (
+      data[0] === 0x52 && data[1] === 0x49 && data[2] === 0x46 && data[3] === 0x46 &&
+      data[8] === 0x57 && data[9] === 0x45 && data[10] === 0x42 && data[11] === 0x50
+    )
+  }
+  if (mimeType === 'image/gif') {
+    // GIF87a ou GIF89a
+    return data[0] === 0x47 && data[1] === 0x49 && data[2] === 0x46
+  }
+  return false
+}
+
 export default defineEventHandler(async (event) => {
+  // Rate limiting: 20 uploads por IP por hora
+  const ip = getClientIp(event)
+  if (!checkRateLimit(`upload:${ip}`, 20, 60 * 60_000)) {
+    throw createError({
+      statusCode: 429,
+      message: 'Limite de uploads atingido. Aguarde antes de enviar mais imagens.',
+    })
+  }
+
   const parts = await readMultipartFormData(event)
 
   if (!parts?.length) {
@@ -50,6 +88,14 @@ export default defineEventHandler(async (event) => {
 
   if (filePart.data.length > MAX_BYTES) {
     throw createError({ statusCode: 400, message: 'Arquivo muito grande. Máximo: 5 MB.' })
+  }
+
+  // Verificação de magic bytes — garante que o conteúdo real corresponde ao tipo declarado
+  if (!hasValidMagicBytes(filePart.data, mimeType)) {
+    throw createError({
+      statusCode: 400,
+      message: 'Arquivo inválido: o conteúdo não corresponde ao tipo de imagem declarado.',
+    })
   }
 
   const ext      = MIME_TO_EXT[mimeType] ?? '.jpg'
