@@ -43,6 +43,5 @@ const areas = [
   { slug: 'direito-empresarial',   name: 'Direito Empresarial',    description: 'Constituição de empresas, contratos e recuperação judicial.' },
   { slug: 'direito-previdenciario',name: 'Direito Previdenciário', description: 'Benefícios, aposentadoria e revisões junto ao INSS.' },
   { slug: 'direito-imobiliario',   name: 'Direito Imobiliário',    description: 'Compra, venda, locação e regularização de imóveis.' },
-  { slug: 'direito-criminal',      name: 'Direito Criminal',       description: 'Defesa técnica em inquéritos e processos criminais.' },
 ]
 </script>

@@ -82,11 +82,6 @@ const areas = [
     description: 'Compra, venda e locação de imóveis. Usucapião, regularização fundiária e distrato imobiliário.',
   },
   {
-    slug: 'direito-criminal',
-    name: 'Direito Criminal',
-    description: 'Defesa técnica em inquéritos policiais, ações penais e habeas corpus.',
-  },
-  {
     slug: 'direito-consumidor',
     name: 'Direito do Consumidor',
     description: 'Ações contra fornecedores, bancos e prestadoras de serviço. Danos materiais e morais.',

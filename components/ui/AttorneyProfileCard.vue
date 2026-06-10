@@ -66,28 +66,23 @@
       </div>
 
       <!-- Biografia -->
-      <!--
-        SUBSTITUIR: attorney.bio → texto de apresentação (2-4 frases)
-      -->
-      <p class="text-sm font-body text-brand-grayDark leading-[1.85]">
+      <p v-if="attorney.bio" class="text-sm font-body text-brand-grayDark leading-[1.85]">
         {{ attorney.bio }}
       </p>
 
       <!-- OAB e formação -->
-      <div v-if="attorney.oab || attorney.education" class="flex flex-col gap-1 pt-1 border-t border-gray-100">
+      <div v-if="attorney.oab || attorney.education || attorney.postGrad" class="flex flex-col gap-1 pt-1 border-t border-gray-100">
         <p v-if="attorney.oab" class="text-xs font-body text-brand-grayDark">
           <span class="font-subheading font-semibold text-brand-green">OAB:</span>
-          <!--
-            SUBSTITUIR: attorney.oab → número de inscrição real
-          -->
           {{ attorney.oab }}
         </p>
         <p v-if="attorney.education" class="text-xs font-body text-brand-grayDark">
-          <span class="font-subheading font-semibold text-brand-green">Formação:</span>
-          <!--
-            SUBSTITUIR: attorney.education → instituição e ano, ex: "Unip — 2010"
-          -->
+          <span class="font-subheading font-semibold text-brand-green">Graduação:</span>
           {{ attorney.education }}
+        </p>
+        <p v-if="attorney.postGrad" class="text-xs font-body text-brand-grayDark">
+          <span class="font-subheading font-semibold text-brand-green">Pós-graduação:</span>
+          {{ attorney.postGrad }}
         </p>
       </div>
 
@@ -100,10 +95,11 @@
 export interface Attorney {
   name:          string
   role:          string
-  bio:           string
+  bio?:          string
   photo?:        string
   oab?:          string
   education?:    string
+  postGrad?:     string
   specialties?:  string[]
 }
 

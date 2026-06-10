@@ -96,22 +96,22 @@ useHead({
  */
 const attorneys: Attorney[] = [
   {
-    name:  'Nome do Advogado',
-    role:  'Advogado — Sócio Fundador',
-    bio:   'Breve apresentação institucional do profissional será inserida aqui. Descreva formação, trajetória, áreas de atuação e diferenciais em duas a três frases objetivas e elegantes.',
-    oab:       'SP 000.000',
-    education: 'Instituição de Ensino Superior — Ano',
+    name:      'Dr. Lucas Ferrigato Oliveira',
+    role:      'Advogado — Sócio Fundador',
+    oab:       'SP 356.461',
+    education: 'Faculdade de Direito de Itu — FADITU',
+    postGrad:  'Direito Civil e Processo Civil — Centro Universitário Metrocamp Wyden',
     specialties: ['Direito Civil', 'Direito Empresarial', 'Direito Imobiliário'],
-    // photo: '/images/team/advogado-1.jpg',
+    // photo: '/images/team/lucas-ferrigato.jpg',
   },
   {
-    name:  'Nome do Advogado',
-    role:  'Advogado(a) — Sócio(a)',
-    bio:   'Breve apresentação institucional do profissional será inserida aqui. Descreva formação, trajetória, áreas de atuação e diferenciais em duas a três frases objetivas e elegantes.',
-    oab:       'SP 000.000',
-    education: 'Instituição de Ensino Superior — Ano',
-    specialties: ['Direito Trabalhista', 'Direito Previdenciário'],
-    // photo: '/images/team/advogado-2.jpg',
+    name:      'Dra. Maria Luiza Zicatti Martins Imperato',
+    role:      'Advogada — Sócia Fundadora',
+    oab:       'SP 447.286',
+    education: 'Faculdade de Direito de Itu — FADITU',
+    postGrad:  'Compliance e Integridade Corporativa — Pontifícia Universidade Católica de Minas Gerais (PUC Minas)',
+    specialties: ['Direito Trabalhista', 'Direito Previdenciário', 'Direito do Consumidor'],
+    // photo: '/images/team/maria-luiza-imperato.jpg',
   },
 ]
 </script>
