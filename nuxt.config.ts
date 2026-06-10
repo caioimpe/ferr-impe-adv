@@ -86,7 +86,7 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/images/logo/logo-vertical-dark.png' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         // Google Fonts — Marcellus, Raleway, Montserrat
         {
           rel: 'preconnect',
