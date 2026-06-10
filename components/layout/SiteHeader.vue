@@ -6,14 +6,14 @@
     <!-- Faixa superior decorativa em dourado — 1px de altura, muito sutil -->
     <div class="w-full h-px bg-brand-gold/40" aria-hidden="true" />
 
-    <div class="container-site flex items-center h-[4.5rem] gap-0">
+    <div class="container-site flex items-center h-[5.5rem] gap-0">
 
       <!-- Logo horizontal clara — fundo escuro -->
       <NuxtLink to="/" class="flex-shrink-0" aria-label="Ferrigato & Imperato Advogados — Página Inicial">
         <img
           src="/images/logo/logo-horizontal-light.png"
           alt="Ferrigato & Imperato Advogados"
-          class="h-[2.6rem] w-auto object-contain"
+          class="h-[3.6rem] w-auto object-contain"
           width="370"
           height="42"
         />

@@ -50,21 +50,6 @@
         </p>
       </div>
 
-      <!-- Especialidades (tags) -->
-      <div v-if="attorney.specialties?.length" class="flex flex-wrap gap-2">
-        <!--
-          SUBSTITUIR: attorney.specialties → array de strings com áreas
-          Ex: ['Direito Civil', 'Direito Empresarial']
-        -->
-        <span
-          v-for="s in attorney.specialties"
-          :key="s"
-          class="px-3 py-1 text-[0.65rem] font-subheading font-semibold tracking-widest uppercase border border-brand-gold/30 text-brand-grayDark"
-        >
-          {{ s }}
-        </span>
-      </div>
-
       <!-- Biografia -->
       <p v-if="attorney.bio" class="text-sm font-body text-brand-grayDark leading-[1.85]">
         {{ attorney.bio }}

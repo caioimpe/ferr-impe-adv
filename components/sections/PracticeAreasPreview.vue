@@ -13,10 +13,15 @@
         <div
           v-for="area in areas"
           :key="area.slug"
-          class="group border border-gray-100 p-7 hover:border-brand-gold/40 hover:shadow-sm transition-all duration-300 cursor-default"
+          class="group border border-gray-100 p-8 flex flex-col gap-4 hover:border-brand-gold/40 hover:shadow-sm transition-all duration-300"
         >
-          <div class="w-6 h-px bg-brand-gold mb-5 group-hover:w-10 transition-all duration-300" aria-hidden="true" />
-          <h3 class="font-heading text-lg text-brand-green mb-2">{{ area.name }}</h3>
+          <!-- Linha expansível -->
+          <div class="w-6 h-px bg-brand-gold/40 group-hover:w-12 transition-all duration-500" aria-hidden="true" />
+
+          <!-- Título -->
+          <h3 class="font-heading text-lg text-brand-green leading-snug">{{ area.name }}</h3>
+
+          <!-- Descrição -->
           <p class="text-sm font-body text-brand-grayDark leading-relaxed">{{ area.description }}</p>
         </div>
       </div>
@@ -43,5 +48,6 @@ const areas = [
   { slug: 'direito-empresarial',   name: 'Direito Empresarial',    description: 'Constituição de empresas, contratos e recuperação judicial.' },
   { slug: 'direito-previdenciario',name: 'Direito Previdenciário', description: 'Benefícios, aposentadoria e revisões junto ao INSS.' },
   { slug: 'direito-imobiliario',   name: 'Direito Imobiliário',    description: 'Compra, venda, locação e regularização de imóveis.' },
+  { slug: 'direito-bancario',      name: 'Direito Bancário',       description: 'Revisão de contratos de crédito, juros abusivos, negativação indevida e superendividamento.' },
 ]
 </script>
