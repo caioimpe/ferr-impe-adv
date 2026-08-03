@@ -23,7 +23,9 @@
           Agendar Consulta
         </NuxtLink>
         <a
-          href="tel:+5511934764353"
+          href="https://wa.me/5511934764353"
+          target="_blank"
+          rel="noopener noreferrer"
           class="inline-block px-8 py-3 border border-white/30 text-white/80 text-sm font-subheading font-medium tracking-wide hover:border-brand-gold hover:text-brand-gold transition-all duration-200"
         >
           (11) 93476-4353
