@@ -66,7 +66,7 @@
         &copy; {{ currentYear }} Ferrigato &amp; Imperato Advogados. Todos os direitos reservados.
       </p>
       <p class="text-xs font-body text-white/30">
-        OAB/SP — Advocacia responsável e ética
+        Soc. de Advogados n.º&nbsp;70039/SP&nbsp;·&nbsp;CNPJ&nbsp;68.273.521/0001-56
       </p>
     </div>
 
