@@ -153,7 +153,9 @@
                 Fale Conosco
               </NuxtLink>
               <a
-                href="tel:+5511934764353"
+                href="https://wa.me/5511934764353"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="inline-block px-6 py-2.5 border border-white/20 text-white/70 text-[0.68rem] font-subheading font-medium tracking-widest uppercase hover:border-brand-gold/50 hover:text-brand-gold transition-all duration-200"
               >
                 (11) 93476-4353

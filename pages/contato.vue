@@ -106,7 +106,7 @@ const contactInfo = [
   {
     label: 'Telefone / WhatsApp',
     value: '(11) 93476-4353',
-    href:  'tel:+5511934764353',
+    href:  'https://wa.me/5511934764353',
   },
   {
     label: 'E-mail',

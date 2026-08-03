@@ -41,7 +41,9 @@
           <span>Vila Teixeira — Salto/SP</span>
           <span>CEP 13.320-352</span>
           <a
-            href="tel:+5511934764353"
+            href="https://wa.me/5511934764353"
+            target="_blank"
+            rel="noopener noreferrer"
             class="mt-2 hover:text-brand-gold transition-colors"
           >
             (11) 93476-4353
