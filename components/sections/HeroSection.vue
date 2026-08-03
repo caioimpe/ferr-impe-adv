@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 const credentials = [
-  { value: 'OAB/SP',      label: 'Regularidade ativa' },
+  { value: 'OAB/SP n° 70.039', label: 'Regularidade ativa' },
   { value: 'Salto/SP',    label: 'Sede do escritório' },
   { value: 'Nacional',    label: 'Atendimento online' },
   { value: 'Presencial',  label: 'Consultas agendadas' },

@@ -65,10 +65,10 @@
     <!-- Rodapé legal -->
     <div class="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p class="text-xs font-body text-white/40">
-        &copy; {{ currentYear }} Ferrigato &amp; Imperato Advogados. Todos os direitos reservados.
+        &copy; {{ currentYear }} FERRIGATO &amp; IMPERATO SOCIEDADE DE ADVOGADOS. Todos os direitos reservados.
       </p>
       <p class="text-xs font-body text-white/30">
-        Soc. de Advogados n.º&nbsp;70039/SP&nbsp;·&nbsp;CNPJ&nbsp;68.273.521/0001-56
+        N&deg; de Registro na OAB/SP 70.039&nbsp;·&nbsp;CNPJ&nbsp;68.273.521/0001-56
       </p>
     </div>
 
