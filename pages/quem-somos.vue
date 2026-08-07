@@ -102,7 +102,7 @@ const attorneys: Attorney[] = [
     education: 'Faculdade de Direito de Itu — FADITU',
     postGrad:  'Direito Civil e Processo Civil — Centro Universitário Metrocamp Wyden',
     specialties: ['Direito Civil', 'Direito Empresarial', 'Direito Imobiliário'],
-    // photo: '/images/team/lucas-ferrigato.jpg',
+    photo: '/images/quem%20somos/lucas.jpeg',
   },
   {
     name:      'Dra. Maria Luiza Zicatti Martins Imperato',
@@ -111,7 +111,7 @@ const attorneys: Attorney[] = [
     education: 'Faculdade de Direito de Itu — FADITU',
     postGrad:  'Compliance e Integridade Corporativa — Pontifícia Universidade Católica de Minas Gerais (PUC Minas)',
     specialties: ['Direito Trabalhista', 'Direito Previdenciário', 'Direito do Consumidor'],
-    // photo: '/images/team/maria-luiza-imperato.jpg',
+    photo: '/images/quem%20somos/maria_luiza.jpeg',
   },
 ]
 </script>
