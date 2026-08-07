@@ -49,8 +49,11 @@ Nuxt 3 (SSR)
 ### Desenvolvimento (`.env` local)
 
 ```env
-# Autenticação admin
-ADMIN_PASSWORD=sua_senha_forte_aqui
+# Autenticação admin (até 2 contas: e-mail + senha)
+ADMIN_EMAIL_1=admin1@exemplo.com
+ADMIN_PASSWORD_1=sua_senha_forte_aqui
+ADMIN_EMAIL_2=admin2@exemplo.com
+ADMIN_PASSWORD_2=outra_senha_forte_aqui
 JWT_SECRET=string_aleatoria_minimo_32_caracteres_aqui
 
 # Deixe em branco em dev para usar o storage local (Nitro fs)
@@ -62,7 +65,10 @@ JWT_SECRET=string_aleatoria_minimo_32_caracteres_aqui
 
 | Variável               | Fonte                         | Obrigatória |
 |------------------------|-------------------------------|-------------|
-| `ADMIN_PASSWORD`       | Você define                   | ✅ sim      |
+| `ADMIN_EMAIL_1`        | Você define                   | ✅ sim      |
+| `ADMIN_PASSWORD_1`     | Você define                   | ✅ sim      |
+| `ADMIN_EMAIL_2`        | Você define                   | opcional (2ª conta) |
+| `ADMIN_PASSWORD_2`     | Você define                   | opcional (2ª conta) |
 | `JWT_SECRET`           | Você define (≥ 32 chars)      | ✅ sim      |
 | `DATABASE_URL`         | Vercel Marketplace → Neon     | ✅ sim      |
 | `BLOB_READ_WRITE_TOKEN`| Vercel Marketplace → Blob     | ✅ sim      |
@@ -184,7 +190,7 @@ npx prisma migrate status
 ### Sem banco (modo atual — storage local)
 
 ```bash
-# Apenas ADMIN_PASSWORD e JWT_SECRET no .env
+# Apenas ADMIN_EMAIL_1/ADMIN_PASSWORD_1 (e opcionalmente _2) e JWT_SECRET no .env
 npm run dev
 ```
 
@@ -208,7 +214,7 @@ O repositório detecta `DATABASE_URL` e usa o Prisma automaticamente.
 
 - [ ] Banco Neon criado e conectado ao projeto
 - [ ] Vercel Blob criado e conectado ao projeto
-- [ ] `ADMIN_PASSWORD` e `JWT_SECRET` configurados em **Settings → Environment Variables**
+- [ ] `ADMIN_EMAIL_1`/`ADMIN_PASSWORD_1` (e opcionalmente `_2`) e `JWT_SECRET` configurados em **Settings → Environment Variables**
 - [ ] `npx prisma generate` rodou no build (veja 6.2)
 
 ### 8.2 Configuração do Build Command na Vercel
@@ -278,7 +284,7 @@ Google indexa via sitemap / link externo
 - [ ] `DATABASE_URL` disponível (automática via Vercel)
 - [ ] Blob Store criado e conectado
 - [ ] `BLOB_READ_WRITE_TOKEN` disponível (automática via Vercel)
-- [ ] `ADMIN_PASSWORD` e `JWT_SECRET` configurados em Vercel
+- [ ] `ADMIN_EMAIL_1`/`ADMIN_PASSWORD_1` (e opcionalmente `_2`) e `JWT_SECRET` configurados em Vercel
 - [ ] Build Command atualizado com `prisma generate && prisma migrate deploy`
 - [ ] Primeiro deploy realizado
 - [ ] Login admin testado em produção

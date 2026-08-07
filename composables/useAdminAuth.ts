@@ -23,11 +23,11 @@ export const useAdminAuth = () => {
     }
   }
 
-  /** Realiza login: envia senha para /api/auth/login. */
-  const login = async (password: string): Promise<void> => {
+  /** Realiza login: envia e-mail e senha para /api/auth/login. */
+  const login = async (email: string, password: string): Promise<void> => {
     await $fetch('/api/auth/login', {
       method: 'POST',
-      body:   { password },
+      body:   { email, password },
     })
     isAuthenticated.value = true
   }

@@ -24,6 +24,22 @@
       <form class="flex flex-col gap-4" @submit.prevent="handleLogin">
 
         <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-[0.6rem] font-subheading tracking-widest uppercase text-white/50">
+            E-mail
+          </label>
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            required
+            autocomplete="username"
+            placeholder="seu@email.com"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 px-4 py-3.5 text-[0.875rem] font-body focus:border-brand-gold/50 focus:outline-none transition-colors"
+            :class="{ 'border-red-400/60': error }"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
           <label for="password" class="text-[0.6rem] font-subheading tracking-widest uppercase text-white/50">
             Senha de acesso
           </label>
@@ -69,6 +85,7 @@ definePageMeta({ layout: false })
 useSeoMeta({ title: 'Painel Editorial | Ferrigato & Imperato', robots: 'noindex, nofollow' })
 
 const auth     = useAdminAuth()
+const email    = ref('')
 const password = ref('')
 const error    = ref('')
 const loading  = ref(false)
@@ -84,7 +101,7 @@ async function handleLogin(): Promise<void> {
   loading.value = true
 
   try {
-    await auth.login(password.value)
+    await auth.login(email.value, password.value)
     await navigateTo('/admin', { replace: true })
   } catch (e: unknown) {
     const msg = (e as { data?: { message?: string } })?.data?.message
